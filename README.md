@@ -1,2 +1,7 @@
 # 04_JS_practice
- 2024前期JavaScriptリポジトリ
+
+2024 前期 JavaScript リポジトリ
+
+## オブジェクトとクラス
+
+-0415(月)

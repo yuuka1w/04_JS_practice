@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>オブジェクトのサンプル①</title>
+  </head>
+  <body>
+    <script>
+      // オブジェクトの定義
+      const parson = {
+        // プロパティ
+        name: "", //""は空文字といってデータが何もない文字列を意味しています。
+        age: 0, // メソッド
+        information: function () {
+          return "名前：" + this.name + "\n年齢：" + this.age;
+        },
+      }; // プロパティの値を代入
+      parson.name = "山田太郎";
+      parson.age = 18;
+
+      // 情報の開示
+      const info = parson.information(); //()は関数の実行
+      console.log(info);
+
+      const dict = { apple: "りんご", banana: "バナナ", orange: "オレンジ" };
+
+      console.log(dict.apple);
+      console.log(dict["apple"]); //ブランケット記法の場合は文字列で入れる
+
+      //内容を変更する
+      dict.apple = "林檎";
+      console.log(dict);
+      //dict オブジェクトに apple というプロパティを追加し、その値を "林檎" に設定
+      //結果:{apple: '林檎', banana: 'バナナ', orange: 'オレンジ'}
+
+      //ぶどうを加える
+      dict.grape = "ぶどう";
+      console.log(dict);
+      //結果:{apple: '林檎', banana: 'バナナ', orange: 'オレンジ', grape: 'ぶどう'}
+
+      //オブジェクトの削除
+      delete dict.orange;
+      console.log(dict);
+      //結果:{apple: '林檎', banana: 'バナナ', grape: 'ぶどう'}
+    </script>
+  </body>
+</html>

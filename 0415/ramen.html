@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>インスタントラーメン</title>
+  </head>
+  <body>
+    <p id="result"></p>
+    <script>
+      const demaeicchou = {
+        name: "出前一丁",
+        soup: "醤油",
+        preview: function () {
+          const area = document.querySelector("#result");
+          //IDが "result" の要素を取得
+          area.innerHTML = `${this.name}は、${this.soup}ラーメンです。`;
+          //バッククォートは文字列 テンプレートリテラル
+          //取得した要素の innerHTML プロパティに、this.name と this.soup を用いたテンプレート文字列を設定
+        },
+      };
+      demaeicchou.preview();
+
+      demaeicchou.soup = "とんこつ";
+      //demaeicchou オブジェクトの soup プロパティの値を "とんこつ" に変更
+      demaeicchou.preview = function () {
+        const area = document.querySelector("#result");
+        //document.querySelector("#result") で、IDが "result" の要素を取得
+        area.innerHTML = `${this.name}は、${this.soup}ラーメンです`;
+        //取得した要素の innerHTML プロパティに、this.name と this.soup を用いたテンプレート文字列を設定
+      };
+      demaeicchou.preview();
+
+      //出前一丁を消す
+      delete demaeicchou.name;
+
+      class InstantNoodle {
+        static TYPE = "インスタントラーメン";
+        static making() {
+          return `<p>${InstantNoodle.TYPE}は鍋で作ります。</p>`;
+        }
+
+        constructor(ramen, taste) {
+          this.name = ramen;
+          this.soup = taste;
+        }
+      }
+
+      document.body.insertAdjacentHTML("beforeend", InstantNoodle.making());
+      console.log(InstantNoodle.TYPE);
+      demaeicchou.preview();
+
+      //コンストラクタ
+      class InstantNoodle {
+        //クラスを定義
+        constructor(ramen, taste) {
+          //コンストラクタ
+          this.name = ramen;
+          this.soup = taste;
+          //コンストラクタ: インスタンス生成時に実行される特別なメソッド this.name と this.soup プロパティに引数として渡された値を設定
+        }
+
+        descript() {
+          return `<p>${this.name}は、${this.soup}味です。</p>`;
+          //インスタンスの詳細情報を返すメソッド
+          //this.name と this.soup プロパティの値を用いたHTML文字列を返す
+        }
+      }
+
+      //   //インスタンス化
+      //   const soltRamen = new InstantNoodle("サッポロ一番", "塩");
+      //   console.log(soltRamen);
+      //   //   const demaeicchou = new InstantNoodle("出前一丁", "醤油");
+      //   console.log(soltRamen.name + "は、" + soltRamen.soup);
+
+      //   const demaeicchouN = new InstantNoodle("出前一丁", "醤油");
+      //   console.log(demaeicchouN);
+      //   console.log(demaeicchouN.name + "は、" + demaeicchouN.sopu);
+
+      //   //メソッドを作って呼び出す
+      //   console.log((soltRamen.descript(), demaeicchouN).descript());
+
+      //   document.body.insertAdjacentHTML("beforeend", soltRamen.descript());
+      //   document.body.insertAdjacentHTML("beforeend", demaeicchouN.descript());
+
+      const ramens = [];
+      ramens.push(new InstantNoodle("サッポロ一番塩", "塩"));
+      ramens.push(new InstantNoodle("出前一丁", "醤油"));
+      ramens.push(new InstantNoodle("うまかっちゃん", "とんこつ"));
+
+      console.log(ramens); //オブジェクトの配列
+
+      //ramenの中にramensの要素(値)が入る
+      ramens.forEach((ramen) => {
+        //lengthを書かなくても要素の数だけ回る
+        document.body.insertAdjacentHTML("beforeend", ramen.descript());
+      });
+    </script>
+  </body>
+</html>

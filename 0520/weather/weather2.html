@@ -3,7 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>天気予報スニペット</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Train+One&display=swap"
+      rel="stylesheet"
+    />
 
     <style>
       table,
@@ -11,10 +19,34 @@
       td {
         border: 1px solid #000;
         border-collapse: collapse;
+        background-color: #fff;
+      }
+
+      body {
+        width: 60%;
+        background-color: #ebf6f7;
+        margin: 0 auto;
+        font-family: "Noto Sans JP", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 300;
+        font-style: normal;
+      }
+
+      h1 {
+        font-family: "Train One", system-ui;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 40px;
+        color: #84a2d4;
+      }
+
+      ul {
+        list-style: none;
       }
     </style>
   </head>
   <body>
+    <h1>天気予報</h1>
     <div class="target"></div>
     <div class="threeDays"></div>
     <div class="precipitation">
@@ -28,6 +60,7 @@
         </tr>
       </table>
     </div>
+    <script src="./weathercodes.js"></script>
     <script>
       //東海4県のコード番号をオブジェクトの配列にしておきます。
       const codeNums = [
@@ -75,34 +108,8 @@
           }
           response.json().then(function (data) {
             console.log(data);
-
-            //愛知県西部の天気予報をwest、日付をweatherDateに代入します。
-            const west = data[0].timeSeries[0].areas[0];
-            const weatherDate = data[0].timeSeries[0].timeDefines;
-
-            //地域<h1>西部</h1>を挿入する。
-            const result = document.querySelector(".threeDays");
-            result.innerHTML = `<h1>${west.area.name}</h1>`;
-
-            //ulをresultに挿入
-            const ulElm = document.createElement("ul");
-            result.appendChild(ulElm);
-
-            //今回はfor文で配列をループ（他のループでも可）
-            for (let i = 0; i < west.weathers.length; i++) {
-              const liElm = document.createElement("li");
-
-              //new Date()で月日を取得します。※月は0から始まるので+1
-              liElm.innerHTML = `${
-                new Date(weatherDate[i]).getMonth() + 1
-              }月${new Date(weatherDate[i]).getDate()}日：${west.weathers[i]}`;
-
-              //liをulに挿入します
-              ulElm.appendChild(liElm);
-            }
           });
         })
-
         .catch(function (err) {
           console.log("Fetchエラー:", err);
         });
@@ -117,6 +124,7 @@
           }
           response.json().then(function (data) {
             console.log(data);
+
             //東部を挿入します。
             const precipAria = document.querySelector(".precipitation");
             const head1 = document.createElement("h1");
@@ -158,6 +166,34 @@
               thElm.innerHTML = `${percent}%`;
               trElem2.appendChild(thElm);
               precipTable.appendChild(trElem2);
+            }
+          });
+        })
+        .catch(function (err) {
+          console.log("Fetchエラー:", err);
+        });
+
+      fetch(weekUrl)
+        .then(function (response) {
+          if (response.status !== 200) {
+            console.log(
+              "問題がありました。ステータスコード:" + response.status
+            );
+            return;
+          }
+          response.json().then(function (data) {
+            const result = document.querySelector(".threeDays_code");
+            const code = data[0].timeSeries[0].areas[0].weatherCodes;
+
+            for (let i = 0; i < code.length; i++) {
+              //画像に気象庁のアイコンを読み込み、表示させる。
+              const image = document.createElement("img");
+
+              //天気コード内のconst weathercodes内のコードを活用
+              console.log(weathercode[code[i]][0]);
+              const weathericon = weathercode[code[i]][0];
+              image.src = `https://www.jma.go.jp/bosai/forecast/img/${weathericon}`;
+              result.appendChild(image);
             }
           });
         })
